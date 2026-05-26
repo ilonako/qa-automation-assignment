@@ -11,4 +11,6 @@ public class ApiProperties {
     private String graphqlUrl;
     private int connectTimeout;
     private int readTimeout;
+    private String username;
+    private String password;
 }
