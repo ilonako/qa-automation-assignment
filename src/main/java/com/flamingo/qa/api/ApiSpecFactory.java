@@ -4,11 +4,15 @@ import com.flamingo.qa.config.ConfigProvider;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +25,8 @@ public class ApiSpecFactory {
                 .setBaseUri(config.api().getBaseUrl())
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .log(LogDetail.ALL)
+                .addFilters(List.of(new RequestLoggingFilter(),
+                        new ResponseLoggingFilter()))
                 .build();
     }
 
@@ -30,7 +35,8 @@ public class ApiSpecFactory {
                 .setBaseUri(config.api().getGraphqlUrl())
                 .setContentType(ContentType.JSON)
                 .setAccept(ContentType.JSON)
-                .log(LogDetail.ALL)
+                .addFilters(List.of(new RequestLoggingFilter(),
+                        new ResponseLoggingFilter()))
                 .build();
     }
 
