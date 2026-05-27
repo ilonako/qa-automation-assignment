@@ -2,9 +2,11 @@ package com.flamingo.qa.tests;
 
 import com.flamingo.qa.components.UIComponents;
 import com.flamingo.qa.config.ConfigProvider;
+import com.flamingo.qa.listener.ScreenshotWatcher;
 import com.microsoft.playwright.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public abstract class BaseUiTest {
     protected Browser browser;
     protected Page page;
 
+    @RegisterExtension
+    protected final ScreenshotWatcher screenshotWatcher = new ScreenshotWatcher();
+
     @BeforeAll
     void launchBrowser() {
         playwright = Playwright.create();
@@ -37,14 +42,9 @@ public abstract class BaseUiTest {
     void openPage() {
         BrowserContext context = browser.newContext();
         context.setDefaultTimeout(config.ui().getTimeout());
+        context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
         page = context.newPage();
-    }
-
-    @AfterEach
-    void closePage() {
-        if (page != null) {
-            page.context().close();
-        }
+        screenshotWatcher.setContext(context);
     }
 
     @AfterAll
