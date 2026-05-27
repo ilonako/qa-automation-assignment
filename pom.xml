@@ -9,8 +9,8 @@
     <url>http://maven.apache.org</url>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <spring-boot.version>3.4.1</spring-boot.version>
         <junit.version>6.1.0</junit.version>
         <rest-assured.version>6.0.0</rest-assured.version>
@@ -149,15 +149,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.5.5</version>
-                <executions>
-                    <execution>
-                        <id>generate-html-report</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-only</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
