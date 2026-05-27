@@ -44,17 +44,25 @@ public class WebTablesPage extends BasePage {
         return PATH;
     }
 
-    public void addRecord(String firstName, String lastName, int age,
-                          String email, int salary, String department) {
+    public void clickAdd() {
         components.button.clickOnButton(addButton);
-        fillRegistrationForm(firstName, lastName, age, email, salary, department);
-        components.button.clickOnButton(submitButton);
     }
 
-    public void editRecord(int rowIndex, String firstName, String lastName, int age,
-                           String email, int salary, String department) {
+    public void clickEdit(int rowIndex) {
         components.table.clickRowAction(rows, rowIndex, "Edit");
-        fillRegistrationForm(firstName, lastName, age, email, salary, department);
+    }
+
+    public void fillForm(String firstName, String lastName, int age,
+                         String email, int salary, String department) {
+        components.input.clearAndFill(firstNameInput, firstName);
+        components.input.clearAndFill(lastNameInput, lastName);
+        components.input.clearAndFill(ageInput, String.valueOf(age));
+        components.input.clearAndFill(emailInput, email);
+        components.input.clearAndFill(salaryInput, String.valueOf(salary));
+        components.input.clearAndFill(departmentInput, department);
+    }
+
+    public void clickSubmit() {
         components.button.clickOnButton(submitButton);
     }
 
@@ -86,13 +94,4 @@ public class WebTablesPage extends BasePage {
         components.table.clickColumnHeader(columnHeaders, colIndex);
     }
 
-    private void fillRegistrationForm(String firstName, String lastName, int age,
-                                      String email, int salary, String department) {
-        components.input.clearAndFill(firstNameInput, firstName);
-        components.input.clearAndFill(lastNameInput, lastName);
-        components.input.clearAndFill(ageInput, String.valueOf(age));
-        components.input.clearAndFill(emailInput, email);
-        components.input.clearAndFill(salaryInput, String.valueOf(salary));
-        components.input.clearAndFill(departmentInput, department);
-    }
 }
