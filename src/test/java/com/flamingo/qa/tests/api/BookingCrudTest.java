@@ -34,7 +34,7 @@ class BookingCrudTest extends BaseApiTest {
 
     @Test
     @DisplayName("Create booking returns a positive booking ID")
-    void shouldCreateBookingAndReturnId() {
+    void createBookingAndReturnId() {
         BookingResponseDto response = bookingScenarios.createRandomBooking();
 
         assertThat(response.getBookingId())
@@ -44,7 +44,7 @@ class BookingCrudTest extends BaseApiTest {
 
     @Test
     @DisplayName("Fetched booking matches the created booking fields")
-    void shouldGetBookingById() {
+    void getBookingById() {
         BookingDto booking = bookingDataFactory.randomBooking();
         BookingDto fetched = bookingScenarios.createAndFetchBooking(booking);
 
@@ -53,7 +53,7 @@ class BookingCrudTest extends BaseApiTest {
 
     @Test
     @DisplayName("Updated booking reflects the new field values")
-    void shouldUpdateBooking() {
+    void updateBooking() {
         BookingResponseDto created = bookingScenarios.createRandomBooking();
         BookingDto updated = bookingDataFactory.randomBooking();
 
@@ -64,7 +64,7 @@ class BookingCrudTest extends BaseApiTest {
 
     @Test
     @DisplayName("Deleted booking returns 404 on subsequent fetch")
-    void shouldDeleteBooking() {
+    void deleteBooking() {
         BookingResponseDto created = bookingScenarios.createRandomBooking();
 
         bookingService.deleteBooking(created.getBookingId(), authService.getToken());

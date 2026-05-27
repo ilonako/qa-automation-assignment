@@ -14,7 +14,7 @@ class BookingAuthTest extends BaseApiTest {
 
     @Test
     @DisplayName("Valid credentials return a non-empty auth token")
-    void shouldReturnValidToken() {
+    void returnValidToken() {
         String token = bookingService.getAuthToken();
         validator.assertTokenNotEmpty(token);
     }

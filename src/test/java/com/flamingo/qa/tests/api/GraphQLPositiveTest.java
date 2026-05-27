@@ -21,7 +21,7 @@ class GraphQLPositiveTest extends BaseApiTest {
 
     @Test
     @DisplayName("Paginated movies query returns a non-empty list")
-    void shouldReturnMoviesWithPagination() {
+    void returnMoviesWithPagination() {
         Response response = graphQLService.queryMoviesWithPagination(3);
         GraphQLResponseDto dto = response.as(GraphQLResponseDto.class);
 
@@ -34,7 +34,7 @@ class GraphQLPositiveTest extends BaseApiTest {
     @Test
     @DisplayName("Movie fetched by ID returns matching ID in response")
     @SuppressWarnings("unchecked")
-    void shouldFetchMovieById() {
+    void fetchMovieById() {
         List<Map<String, Object>> movies = fetchMovies(1);
         String movieId = (String) movies.get(0).get("id");
 
@@ -51,7 +51,7 @@ class GraphQLPositiveTest extends BaseApiTest {
 
     @Test
     @DisplayName("Pagination limit variable is respected by the API")
-    void shouldRespectPaginationLimit() {
+    void respectPaginationLimit() {
         int limit = 2;
         Response response = graphQLService.queryMoviesWithPagination(limit);
         GraphQLResponseDto dto = response.as(GraphQLResponseDto.class);
@@ -65,7 +65,7 @@ class GraphQLPositiveTest extends BaseApiTest {
     @Test
     @DisplayName("Nested publisher fields are returned for a valid movie ID")
     @SuppressWarnings("unchecked")
-    void shouldReturnNestedFields() {
+    void returnNestedFields() {
         List<Map<String, Object>> movies = fetchMovies(1);
         String movieId = (String) movies.get(0).get("id");
 

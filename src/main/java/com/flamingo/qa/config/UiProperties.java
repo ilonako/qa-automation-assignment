@@ -8,7 +8,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class UiProperties {
 
     private String baseUrl;
-    private String browser;
     private boolean headless;
     private int slowMo;
     private int timeout;

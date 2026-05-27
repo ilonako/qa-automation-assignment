@@ -18,7 +18,7 @@ class GraphQLNegativeTest extends BaseApiTest {
 
     @Test
     @DisplayName("Non-existent movie ID returns null data for that entity")
-    void shouldReturnNullMovieForNonExistentId() {
+    void returnNullMovieForNonExistentId() {
         Response response = graphQLService.queryMovieById("non-existent-id-00000000");
         GraphQLResponseDto dto = response.as(GraphQLResponseDto.class);
 
@@ -29,7 +29,7 @@ class GraphQLNegativeTest extends BaseApiTest {
 
     @Test
     @DisplayName("Malformed GraphQL query returns errors in the response")
-    void shouldReturnErrorForMalformedQuery() {
+    void returnErrorForMalformedQuery() {
         Response response = graphQLService.executeRawQuery("{ this is not valid graphql }");
         GraphQLResponseDto dto = response.as(GraphQLResponseDto.class);
 
@@ -38,7 +38,7 @@ class GraphQLNegativeTest extends BaseApiTest {
 
     @Test
     @DisplayName("Querying a non-existent field returns a schema validation error")
-    void shouldReturnErrorForNonExistentField() {
+    void returnErrorForNonExistentField() {
         Response response = graphQLService.executeRawQuery("{ movies { nonExistentField } }");
         GraphQLResponseDto dto = response.as(GraphQLResponseDto.class);
 
