@@ -1,13 +1,10 @@
 package com.flamingo.qa.components;
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
+import org.springframework.stereotype.Component;
 
+@Component
 public class InputComponent extends BaseComponent {
-
-    public InputComponent(Page page) {
-        super(page);
-    }
 
     public void fillInput(Locator locator, String value) {
         waitForVisible(locator);
