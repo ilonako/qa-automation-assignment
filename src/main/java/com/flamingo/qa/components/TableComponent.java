@@ -22,8 +22,8 @@ public class TableComponent extends BaseComponent {
                 .toList();
     }
 
-    public void clickRowAction(Locator rows, int rowIndex, String actionSelector) {
-        Locator action = rows.nth(rowIndex).locator(actionSelector);
+    public void clickRowAction(Locator rows, int rowIndex, String title) {
+        Locator action = rows.nth(rowIndex).getByTitle(title);
         waitForVisible(action);
         action.click();
     }
