@@ -1,17 +1,16 @@
 package com.flamingo.qa.utils;
 
+import lombok.experimental.UtilityClass;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.json.JsonMapper;
 
-public final class JsonUtils {
+@UtilityClass
+public class JsonUtils {
 
     private static final JsonMapper MAPPER = JsonMapper.builder()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .build();
-
-    private JsonUtils() {
-    }
 
     public static String serialize(Object object) {
         try {

@@ -1,15 +1,15 @@
 package com.flamingo.qa.utils;
 
+import lombok.experimental.UtilityClass;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public final class DateUtils {
+@UtilityClass
+public class DateUtils {
 
     private static final DateTimeFormatter BOOKING_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter UI_FORMAT = DateTimeFormatter.ofPattern("dd MMM yyyy");
-
-    private DateUtils() {
-    }
 
     public static String toBookingDate(LocalDate date) {
         return date.format(BOOKING_FORMAT);

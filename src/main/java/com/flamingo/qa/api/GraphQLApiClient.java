@@ -16,8 +16,6 @@ import static io.restassured.RestAssured.given;
 @Component
 public class GraphQLApiClient {
 
-    private static final String GRAPHQL_PATH = "/graphql";
-
     private final RequestSpecification spec;
 
     public GraphQLApiClient(ApiSpecFactory specFactory) {
@@ -27,6 +25,6 @@ public class GraphQLApiClient {
     public Response execute(GraphQLRequestDto request) {
         return given().spec(spec)
                 .body(request)
-                .post(GRAPHQL_PATH);
+                .post();
     }
 }
