@@ -2,9 +2,9 @@ package com.flamingo.qa.listener;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.Tracing;
 import lombok.NonNull;
-import lombok.Setter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestWatcher;
 
@@ -14,10 +14,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-@Setter
 public class ScreenshotWatcher implements TestWatcher {
 
     private BrowserContext context;
+    private Playwright playwright;
+
+    public void setUp(BrowserContext context, Playwright playwright) {
+        this.context = context;
+        this.playwright = playwright;
+    }
 
     @Override
     public void testFailed(@NonNull ExtensionContext extensionContext, Throwable cause) {
@@ -35,34 +40,35 @@ public class ScreenshotWatcher implements TestWatcher {
             context.tracing().stop(new Tracing.StopOptions()
                     .setPath(traceDir.resolve(name + ".zip")));
         } finally {
-            context.close();
-            context = null;
+            closeResources();
         }
     }
 
     @Override
     public void testSuccessful(@NonNull ExtensionContext extensionContext) {
-        closeQuietly();
+        closeResources();
     }
 
     @Override
     public void testAborted(@NonNull ExtensionContext extensionContext, Throwable cause) {
-        closeQuietly();
+        closeResources();
     }
 
     @Override
     public void testDisabled(@NonNull ExtensionContext extensionContext, @NonNull Optional<String> reason) {
-        closeQuietly();
+        closeResources();
     }
 
-    private void closeQuietly() {
-        if (context != null) {
-            try {
+    private void closeResources() {
+        try {
+            if (context != null) {
                 context.tracing().stop();
                 context.close();
-            } finally {
-                context = null;
             }
+        } finally {
+            if (playwright != null) playwright.close();
+            context = null;
+            playwright = null;
         }
     }
 

@@ -13,7 +13,8 @@ public class InputComponent extends BaseComponent {
 
     public void clearAndFill(Locator locator, String value) {
         waitForVisible(locator);
-        locator.clear();
+        // TODO: clear data picker
+        locator.click(new Locator.ClickOptions().setClickCount(3));
         locator.fill(value);
     }
 

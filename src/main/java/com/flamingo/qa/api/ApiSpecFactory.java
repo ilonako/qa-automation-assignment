@@ -24,7 +24,7 @@ public class ApiSpecFactory {
         return new RequestSpecBuilder()
                 .setBaseUri(config.api().getBaseUrl())
                 .setContentType(ContentType.JSON)
-                .setAccept(ContentType.JSON)
+                .setAccept("application/json")
                 .addFilters(List.of(new RequestLoggingFilter(),
                         new ResponseLoggingFilter()))
                 .build();
@@ -34,7 +34,7 @@ public class ApiSpecFactory {
         return new RequestSpecBuilder()
                 .setBaseUri(config.api().getGraphqlUrl())
                 .setContentType(ContentType.JSON)
-                .setAccept(ContentType.JSON)
+                .setAccept("application/json")
                 .addFilters(List.of(new RequestLoggingFilter(),
                         new ResponseLoggingFilter()))
                 .build();

@@ -13,12 +13,12 @@ public class TableComponent extends BaseComponent {
     }
 
     public String getCell(Locator rows, int rowIndex, int colIndex) {
-        return rows.nth(rowIndex).locator("div.rt-td").nth(colIndex).innerText().trim();
+        return rows.nth(rowIndex).locator("td").nth(colIndex).innerText().trim();
     }
 
     public List<String> getColumnValues(Locator rows, int colIndex) {
         return rows.all().stream()
-                .map(row -> row.locator("div.rt-td").nth(colIndex).innerText().trim())
+                .map(row -> row.locator("td").nth(colIndex).innerText().trim())
                 .toList();
     }
 

@@ -28,8 +28,8 @@ public class WebTablesPage extends BasePage {
         super(page, config, uiComponents);
         this.addButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Add"));
         this.searchInput = page.getByPlaceholder("Type to search");
-        this.rows = page.locator(".rt-tr-group");
-        this.columnHeaders = page.locator(".rt-th");
+        this.rows = page.locator("tbody tr");
+        this.columnHeaders = page.locator("thead th");
         this.submitButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit"));
         this.firstNameInput = page.getByPlaceholder("First Name");
         this.lastNameInput = page.getByPlaceholder("Last Name");

@@ -5,52 +5,42 @@ import com.flamingo.qa.config.ConfigProvider;
 import com.flamingo.qa.listener.ScreenshotWatcher;
 import com.microsoft.playwright.*;
 import net.datafaker.Faker;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Map;
+
 @Tag("ui")
 @SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Execution(ExecutionMode.SAME_THREAD)
 public abstract class BaseUiTest {
 
     protected final Faker faker = new Faker();
+    @RegisterExtension
+    protected final ScreenshotWatcher screenshotWatcher = new ScreenshotWatcher();
     @Autowired
     protected ConfigProvider config;
     @Autowired
     protected UIComponents uiComponents;
-    protected Playwright playwright;
-    protected Browser browser;
     protected Page page;
 
-    @RegisterExtension
-    protected final ScreenshotWatcher screenshotWatcher = new ScreenshotWatcher();
-
-    @BeforeAll
-    void launchBrowser() {
-        playwright = Playwright.create();
-        BrowserType.LaunchOptions options = new BrowserType.LaunchOptions()
-                .setHeadless(config.ui().isHeadless())
-                .setSlowMo(config.ui().getSlowMo());
-        browser = playwright.chromium().launch(options);
-    }
-
     @BeforeEach
-    void openPage() {
+    void setUp() {
+        // Local OS fix
+        Playwright playwright = Playwright.create(new Playwright.CreateOptions()
+                .setEnv(Map.of("PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD", "1")));
+
+        Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
+                .setHeadless(config.ui().isHeadless())
+                .setSlowMo(config.ui().getSlowMo()));
+        // ScreenshotWatcher manages closable functions
+
         BrowserContext context = browser.newContext();
         context.setDefaultTimeout(config.ui().getTimeout());
         context.tracing().start(new Tracing.StartOptions().setScreenshots(true).setSnapshots(true));
         page = context.newPage();
-        screenshotWatcher.setContext(context);
-    }
-
-    @AfterAll
-    void closeBrowser() {
-        if (browser != null) browser.close();
-        if (playwright != null) playwright.close();
+        screenshotWatcher.setUp(context, playwright);
     }
 }

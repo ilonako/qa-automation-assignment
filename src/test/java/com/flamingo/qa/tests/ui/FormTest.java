@@ -8,9 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
+import static com.flamingo.qa.utils.DateUtils.toUiDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Form Submission")
@@ -28,8 +32,8 @@ class FormTest extends BaseUiTest {
     }
 
     @Test
-    @DisplayName("Fully completed registration form shows success modal")
-    void submitFormSuccessfully() {
+    @DisplayName("Student registration form with all fields shows success modal")
+    void submitFullRegistrationForm() {
         String state = faker.options().option("NCR", "Uttar Pradesh", "Haryana", "Rajasthan");
 
         String modalTitle = scenarios.submitRegistrationForm(
@@ -39,15 +43,26 @@ class FormTest extends BaseUiTest {
                 faker.internet().emailAddress(),
                 faker.options().option("Male", "Female", "Other"),
                 faker.number().digits(10),
-                LocalDate.now().minusYears(faker.number().numberBetween(18, 60))
-                        .format(DateTimeFormatter.ofPattern("dd MMM yyyy")),
+                toUiDate(LocalDate.now().minusYears(faker.number().numberBetween(18, 60))),
+                "Maths",
                 faker.options().option("Sports", "Reading", "Music"),
+                createTempFile().toString(),
                 faker.address().streetAddress(),
                 state,
                 randomCity(state)
         );
 
         assertThat(modalTitle).isEqualTo("Thanks for submitting the form");
+    }
+
+    private Path createTempFile() {
+        try {
+            Path file = Files.createTempFile("test-photo", ".jpg");
+            file.toFile().deleteOnExit();
+            return file;
+        } catch (IOException e) {
+            throw new UncheckedIOException("Failed to create temp upload file", e);
+        }
     }
 
     private String randomCity(String state) {

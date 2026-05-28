@@ -15,6 +15,7 @@ public class FormPage extends BasePage {
     private final Locator emailInput;
     private final Locator mobileInput;
     private final Locator dateOfBirthInput;
+    private final Locator subjectsInput;
     private final Locator currentAddressInput;
     private final Locator fileUpload;
     private final Locator submitButton;
@@ -27,6 +28,7 @@ public class FormPage extends BasePage {
         this.emailInput = page.getByPlaceholder("name@example.com");
         this.mobileInput = page.getByPlaceholder("Mobile Number");
         this.dateOfBirthInput = page.locator("#dateOfBirthInput");
+        this.subjectsInput = page.locator("#subjectsInput");
         this.currentAddressInput = page.getByPlaceholder("Current Address");
         this.fileUpload = page.locator("#uploadPicture");
         this.submitButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit"));
@@ -48,7 +50,7 @@ public class FormPage extends BasePage {
     }
 
     public void selectGender(String gender) {
-        components.button.clickOnButton(page.getByLabel(gender));
+        components.button.clickOnButton(page.getByLabel(gender, new Page.GetByLabelOptions().setExact(true)));
     }
 
     public void fillMobile(String mobile) {
@@ -58,6 +60,11 @@ public class FormPage extends BasePage {
     public void fillDateOfBirth(String date) {
         components.input.clearAndFill(dateOfBirthInput, date);
         dateOfBirthInput.press("Enter");
+    }
+
+    public void fillSubject(String subject) {
+        subjectsInput.pressSequentially(subject);
+        page.locator(".subjects-auto-complete__option").first().click();
     }
 
     public void selectHobby(String hobby) {

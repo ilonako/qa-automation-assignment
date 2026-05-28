@@ -46,6 +46,9 @@ GraphQL always returns `200 OK`, even for malformed queries or schema violations
 **UI parallelism vs. shared page field**
 Enabling class-level parallel execution with `@TestInstance(PER_CLASS)` introduced a race condition: concurrent test methods within the same class competed over the shared `page` and `webTablesPage` fields. Adding `@Execution(SAME_THREAD)` to `BaseUiTest` enforces sequential method execution per class while keeping class-level concurrency intact.
 
+**Third-party ads blocking and redirecting the page**
+demoqa.com serves aggressive ads that delayed React rendering past the locator timeout and in some cases triggered a full-page redirect mid-test. The fix was to register `context.route()` abort handlers for known ad domains on every `BrowserContext` before navigation.
+
 ## What I Would Add With More Time
 
 1. **Centralised REST Assured client** — introduce a single `RestAssuredClient` as the global HTTP entry point, then build per-service clients on top of it (e.g. `BookingApiClient`, `GraphQLApiClient`) each mapping directly to the endpoints described in the service documentation. This eliminates scattered `RestAssured.given()` calls and makes base-URL or auth changes a one-line fix.
@@ -54,7 +57,7 @@ Enabling class-level parallel execution with `@TestInstance(PER_CLASS)` introduc
 
 3. **Replace placeholder-based locators** — locators such as `page.getByPlaceholder("Last Name")` are tied to visible UI text and break under internationalisation or copy changes. Stable `data-testid` attributes or ARIA roles should be negotiated with the development team and used instead.
 
-4. **Dedicated steps / data-provider layer** — helper methods like `fetchMovies()`, inline record construction, and data manipulation currently live inside test classes. Extracting these into a separate `steps` or `data-provider` layer would improve reuse, readability, and make test methods express intent rather than mechanics.
+4. **Dedicated steps / data-provider layer** — helper methods like `addRandomRecord()` or `acreateTempFile()`, inline record construction, and data manipulation currently live inside test classes. Extracting these into a separate `steps` or `data-provider` layer would improve reuse, readability, and make test methods express intent rather than mechanics.
 
 5. **Service registry class in the test package** — a dedicated configuration class that wires and exposes all test-scoped services (e.g. `BookingService`, `GraphQLService`) would remove `@Autowired` scatter across individual test classes and provide a single place to manage test dependencies.
 
@@ -65,3 +68,5 @@ Enabling class-level parallel execution with `@TestInstance(PER_CLASS)` introduc
 8. **Environment switching via Maven profiles** — base URLs, timeouts, and credentials are currently fixed to one environment. Defining Maven profiles (`-Pstaging`, `-Pprod`) that override `application.properties` values would allow the same suite to target any environment without code changes.
 
 9. **Test suite strategy (Smoke, Regression, Feature)** — currently all tests share a single `api` or `ui` tag. A richer tagging model would introduce named suites: `@Tag("smoke")` for a fast, high-confidence subset run on every deployment to catch critical regressions within minutes; `@Tag("regression")` for the full suite scheduled nightly or pre-release; and `@Tag("feature")` scoped to the area under active development and run on every feature branch PR. Combined with Maven profiles or CI matrix jobs, each suite could target the appropriate environment, parallelism level, and failure threshold independently.
+
+10. **Resource Locked scope** — isolation for data/state-sensitive tests.
