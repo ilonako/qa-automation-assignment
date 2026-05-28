@@ -23,12 +23,4 @@ public class BookingScenarios {
         return bookingService.getBooking(created.getBookingId());
     }
 
-    public void fullCrudLifecycle(BookingDto original, BookingDto updated) {
-        String token = bookingService.getAuthToken();
-        BookingResponseDto created = bookingService.createBooking(original);
-        int id = created.getBookingId();
-        bookingService.getBooking(id);
-        bookingService.updateBooking(id, updated, token);
-        bookingService.deleteBooking(id, token);
-    }
 }

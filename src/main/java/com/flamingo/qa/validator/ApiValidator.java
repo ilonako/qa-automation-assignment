@@ -53,9 +53,4 @@ public class ApiValidator {
                 .allSatisfy(error -> assertThat(error.getMessage()).isNotEmpty());
     }
 
-    public void assertGraphQLNullData(GraphQLResponseDto response) {
-        assertThat(response.hasData())
-                .withFailMessage("GraphQL response data must be null for non-existent entity but got: %s", response.getData())
-                .isFalse();
-    }
 }

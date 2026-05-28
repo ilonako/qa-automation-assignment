@@ -20,17 +20,4 @@ public class WebTablesScenarios {
         page.clickSubmit();
     }
 
-    public String addAndFind(WebTablesPage page, String firstName, String lastName,
-                             int age, String email, int salary, String department) {
-        addRecord(page, firstName, lastName, age, email, salary, department);
-        page.search(firstName);
-        return page.getCell(0, 0);
-    }
-
-    public int searchAndDelete(WebTablesPage page, String keyword) {
-        page.search(keyword);
-        page.deleteRecord(0);
-        page.clearSearch();
-        return page.getRowCount();
-    }
 }

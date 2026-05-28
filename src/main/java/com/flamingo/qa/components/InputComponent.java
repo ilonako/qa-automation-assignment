@@ -18,8 +18,4 @@ public class InputComponent extends BaseComponent {
         locator.fill(value);
     }
 
-    public String getValue(Locator locator) {
-        waitForVisible(locator);
-        return locator.inputValue();
-    }
 }

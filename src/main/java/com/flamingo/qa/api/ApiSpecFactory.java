@@ -2,13 +2,10 @@ package com.flamingo.qa.api;
 
 import com.flamingo.qa.config.ConfigProvider;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -40,9 +37,4 @@ public class ApiSpecFactory {
                 .build();
     }
 
-    public ResponseSpecification successSpec() {
-        return new ResponseSpecBuilder()
-                .log(LogDetail.ALL)
-                .build();
-    }
 }

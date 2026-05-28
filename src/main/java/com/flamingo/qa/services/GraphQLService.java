@@ -44,10 +44,4 @@ public class GraphQLService {
                 .build());
     }
 
-    public Response executeWithVariables(String query, Map<String, Object> variables) {
-        return graphQLApiClient.execute(GraphQLRequestDto.builder()
-                .query(query)
-                .variables(variables)
-                .build());
-    }
 }

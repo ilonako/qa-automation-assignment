@@ -16,10 +16,6 @@ public class DateUtils {
         return date.format(BOOKING_FORMAT);
     }
 
-    public static LocalDate parseBookingDate(String date) {
-        return LocalDate.parse(date, BOOKING_FORMAT);
-    }
-
     public static String toUiDate(LocalDate date) {
         return date.format(UI_FORMAT);
     }

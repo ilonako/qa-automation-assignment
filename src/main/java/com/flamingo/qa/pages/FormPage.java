@@ -93,10 +93,6 @@ public class FormPage extends BasePage {
         components.button.clickOnButton(submitButton);
     }
 
-    public boolean isSuccessModalVisible() {
-        return successModal.isVisible();
-    }
-
     public String getSuccessModalTitle() {
         return successModal.innerText();
     }

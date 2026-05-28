@@ -9,10 +9,6 @@ public abstract class BaseComponent {
         locator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
     }
 
-    protected void waitForHidden(Locator locator) {
-        locator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.HIDDEN));
-    }
-
     protected boolean isVisible(Locator locator) {
         return locator.isVisible();
     }
